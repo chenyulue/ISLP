@@ -92,3 +92,83 @@ To quantify *the extent to which the model fits the data*, we use two related qu
 
 ### Residual Standard Error
 
+The **RSE** is an estimate of the standard deviation of the error term $\epsilon$, namely, it is the average amount that the the response will deviate from the true regression line.
+
+$$RSE = \sqrt{\frac{1}{n-2}RSS} = \sqrt{\frac{1}{n-2} \sum_{i=1}^n (y_i - \hat{y}_i)^2}$$
+
+The **RSE** is considered a measure of the *lack of fit* of the model ($Y = \beta_0 + \beta_1 X + \epsilon$) to the data. If the RSE is small, we can conclude that the model fits the data very well.
+
+### $R^2$ Statistic
+
+The $R^2$ statistic takes the form of a *proportion*, which means it always takes on a value between 0 and 1, and is independent of the scale of $Y$.
+
+$$R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS]}$$
+
+where $TSS = \sum_{i=1}^n(y_i - \bar{y})^2$ is the *total sum of squares*.
+
+* $TSS$ measures the total variance in the response $Y$ and can be thought of as the amount of variability inherent in the response before the regression is preformed. 
+
+* $RSS$ measures the amount of variability that is left unexplained after performing the regression.
+* $TSS-RSS$ measures the amount of variability in the response that is explained (or removed) by performing the regression.
+* $R^2$ measures the *proportion of variability in $Y$ that can be explained using $X$*.
+
+The $R^2$ statistic is a measure of the linear relationship between $X$ and $Y$. Unlike the *correlation*, $R^2$ can quantify the association between a larger number of variables.
+
+# 3.2 Multiple Linear Regression
+
+Given $p$ distinct predictors, the  multiple linear regression model is of the form:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdot\cdot\cdot + \beta_p X_p + \epsilon$$
+
+where $X_j$ represents the *j*th predictors and $\beta_j$ quantifies the association between that variable and the response. 
+
+$\beta_j$ is interpreted as the *average* effect on $Y$ of a one unit increase in $X_j$, *holding all other predictors fixed.*
+
+## 3.2.1 Estimating the Regression Coefficients
+
+Given estimates $\hat{\beta}_0, \hat{\beta}_1, ..., \hat{\beta}_p$, we can make predictions using the formula:
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + ... + \hat{\beta}_p x_p$$
+
+Using the same *least squares approach*, we choose $\beta_0, \beta_1, ..., \beta_p$ to minimize the sum of squared residuals:
+
+$$RSS = \sum_{i=1}^n(y_i - \hat{y}_i)^2 = \sum_{i=1}^n(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_{i1} - \hat{\beta}_2 x_{i2} - \cdot\cdot\cdot - \hat{\beta}_p x_{ip})^2$$
+
+The values $\hat{\beta}_0, \hat{\beta}_1, ..., \hat{\beta}_p$ that minimize the $RSS$ are the multiple least squares regression coefficient estimates.
+
+## 3.2.2 Some Import Questions
+
+### One: Is There a Relationship Between the Response and Predictors?
+
+Use a hypothesis test to answer this question as in the simple linear regression setting:
+
+* Null hypothesis, $H_0$: $\beta_1 = \beta_2 = \cdot\cdot\cdot = \beta_p = 0$, versus
+* the alternative, $H_a$: at least one $\beta_j$ is non-zero.
+
+This hypothesis test is performed by computing the *F-statistic*:
+
+$$F = \frac{(TSS - RSS)/p}{RSS/(n-p-1)}$$
+
+where $TSS = \sum({y_i - \bar{y})^2}$ and $RSS = \sum(y_i - \hat{y}_i)^2$.
+
+* When there is no relationship between the response and predictors, one would expect the *F-statistic* to take on a value close to 1.
+* If $H_a$ is true, we expect $F$ to be greater than 1.
+* How large does the F-statistic need to be before we can reject $H_0$ and conclude that there is a relationship?   => Depends on the values of $n$ and $p$
+  * When $n$ is large, an F-statistic that is just a little larger than 1 might still provide evidence against $H_0$.
+  * A larger F-statistic is needed to reject $H_0$ if $n$ is small.
+
+To test that a particular subset of $q$ of the coefficients are zero, the corresponding null hypothesis is:
+
+$$H_0$$: $\beta_{p-q+1} = \beta_{p-q+2} = \cdot\cdot\cdot = \beta_p = 0$
+
+In this case we fit a second model that uses all the variables *except* those $q$ predictors, and compute the residual sum of squares for that model as $RSS_0$. Then the appropriate F-statistic is:
+
+$$F = \frac{(RSS_0 - RSS)/q}{RSS/(n-p-1)}$$
+
+Note:
+
+* The approach of using an F-statistic to test for any association between the predictors and the response works when $p$ is smaller than $n$.
+* If $p > n$ then we cannot even fit the multiple linear regression model using least squares, and the F-statistic cannot be used.
+
+### Two: Deciding on Important Variables
+
