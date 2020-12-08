@@ -172,3 +172,34 @@ Note:
 
 ### Two: Deciding on Important Variables
 
+***Variable selection***: to determine which predictors are associated with the response, in order to fit a single model involving only those predictors.
+
+Statistics that can be used to judge the quality of a model:
+
+* *Mallow's $C_p$*
+* *Akaike information criterion (AIC)*
+* *Bayesian information criterion (BIC)*
+* *Adjusted $R^2$*
+
+If $p$ is small enough, we can consider all $2^p$ models and determine which is best; otherwise, we need an automated and efficient approach to choose a smaller set of models to consider:
+
+* *Forward selection*, which begins with the *null model* and add the variable one by one that results in the lowest $RSS$. After adding one variable, the new model needs to be re-fit.
+* *Backward selection*, which starts with all variables in the model and remove the variable one by one that has the largest *p-value*. After removing one variable, the new model needs to be re-fit. **Backward selection cannot be used if $p>n$**.
+* *Mixed selection*, which is a combination of forward and backward selection. We start with no variables in the model, and as with forward selection, we add the variable that provides the best fit. If at any point the *p-value* for one of the variables in the model rises above a certain threshold, then we remove that variable from the model. Repeat these forward and backward steps. 
+
+### Three: Model Fit
+
+In multiple linear regression, $R^2$ equals $Cor(Y, \hat{Y})$, the square of the correlation between the response and the fitted linear model.
+
+$R^2$ will always increase when more variables are added to the model, even if those variables are only weakly associated with the response.
+
+However, if adding a variable to the model only leads to just a tiny increase in $R^2$, then the additional variable can be dropped from the model.
+
+In general $RSE$ is defined as:
+
+$$RSE = \sqrt{\frac{1}{n-p-1}RSS}$$
+
+In addition to looking at the $RSE$ and $R^2$ statistics, we can also plot the data to look how well the model can fit.
+
+### Four: Predictions
+
