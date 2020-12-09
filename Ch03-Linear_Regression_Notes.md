@@ -203,3 +203,21 @@ In addition to looking at the $RSE$ and $R^2$ statistics, we can also plot the d
 
 ### Four: Predictions
 
+* The *least squares plane*
+
+  $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X_1 + \cdot\cdot\cdot + \hat{\beta}_p X_p$$
+
+  is only an estimate for the *true population regression plane*
+
+  $$f(X) = \beta_0 + \beta_1 X_1 + \cdot\cdot\cdot + \beta_p X_p$$
+
+  The inaccuracy in the coefficient estimates is related to the *reducible error*. We can compute a *confidence interval* to determine how close $\hat{Y}$ will be to $f(X)$.
+
+* A linear model for $f(X)$ is an approximation of reality, which causes an additional source of potentially reducible error called as *model bias*.
+
+* The random error $\epsilon$, called as the *irreducible error*, makes it impossible to predict the response value perfectly even if we knew the true values for $\beta_0, \beta_1, ..., \beta_p$. To measure how much will $Y$ vary from $\hat{Y}$, we use ***prediction intervals***, which are always wider than confident intervals.
+
+# 3.3 Other Considerations in the Regression Model
+
+## 3.3.1 Qualitative Predictors
+
