@@ -221,3 +221,65 @@ In addition to looking at the $RSE$ and $R^2$ statistics, we can also plot the d
 
 ## 3.3.1 Qualitative Predictors
 
+### Predictors with Only Two Levels
+
+If a qualitative predictor (also known as a *factor*) only has two *levels*, or possible values, incorporating it into a regression model needs to create an indictor or ***dummy variable*** that takes on two possible numerical values. 
+
+### Qualitative Predictors with More than Two Levels
+
+In this situation, we can create additional dummy variables, but there will always be one fewer dummy variable than the number of levels. The level with no dummy variable is known as the ***baseline***.
+
+Using this dummy variable approach presents no difficulties when incorporating both quantitative and qualitative predictors.
+
+## 3.3.2 Extensions of the Linear Model
+
+The standard linear regression model makes several highly restrictive assumptions that are often violated in practice, two of which state that the relationship between the predictors and response are:
+
+* ***Additive*** => the effect of changes in a predictor $X_j$ on the response $Y$ is independent of the values of the other predictors.
+* ***linear*** => the change in the response $Y$ due to a one-unit change in $X_j$ is constant , regardless of the value of $X_j$.
+
+### Removing the Additive Assumption
+
+* ***Synergy effect***, or ***interaction effect***
+
+One way of extending the linear model to allow for interaction effects is to include a third predictor, called an ***interaction term***, which is constructed by computing the product of $X_1$ and $X_2$.
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \epsilon$$
+
+The *hierarchical principle* states that *if we include an interaction in a model, we should also include the main effects, even if the p-values associated with their coefficients are not significant.*
+
+The concept of interactions applies just as well to qualitative variables, or to a combination of quantitative and qualitative variables. An interaction variable can be created by multiplying the quantitative variable with the dummy variable for the qualitative variable.
+
+### Non-linear Relationships
+
+To extend the linear model to accommodate non-linear relationships, we can use ***polynomial regression***, which incorporates non-linear associations in a linear model by including transformed versions of the predictors in the model. The *polynomial regression* is still a **linear model!.**
+
+## 3.3.3 Potential Problems
+
+### Non-linearity of the Data
+
+***Residual plots*** are a useful graphical tool for identifying non-linearity.
+
+* For a simple linear regression model, plot the residuals, $e_i = y_i - \hat{y}_i$, versus the predictors $x_i$;
+* For a multiple regression model, plot the residuals versus the predicted (or fitted) values $\hat{y}_i$.
+
+Ideally, the residual plot will show no **discernible pattern**. The presence of a pattern may indicate a problem with some aspects of the linear model.
+
+If the residual plot indicates that there are non-linear associations in the data, a simple approach is to use non-linear transformations of the predictors, such as $log X$, $\sqrt{X}$, and $X^2$, in the regression model.
+
+### Correlation of Error Terms
+
+An important assumption of the linear regression model is that the error terms, $\epsilon_1, \epsilon_2, \cdot\cdot\cdot, \epsilon_n$ are uncorrelated. The standard errors that are computed for the estimated regression coefficients or the fitted values are based on this assumption.
+
+If there is correlation among the error terms, then
+
+* the estimated standard errors will tend to underestimate the true standard errors
+* confidence and prediction intervals will be narrower than they should be.
+* p-values associated with the model will be lower than they should be.
+
+In short, if the error terms are correlated, we may have an unwarranted sense of confidence in our model.
+
+If the errors are uncorrelated, then there should be no discernible pattern among the adjacent data points in the residuals versus observations plots; otherwise, we may see *tracking* in the residuals. For example, adjacent residuals may have similar values if the error terms are positively correlated.
+
+### Non-constant Variance of Error Terms
+
