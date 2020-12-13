@@ -283,3 +283,91 @@ If the errors are uncorrelated, then there should be no discernible pattern amon
 
 ### Non-constant Variance of Error Terms
 
+The standard errors, confidence intervals, and hypothesis tests associated with the linear model rely upon the assumption that **the error terms have a constant variance, **$Var(\epsilon_i) = \sigma^2$.
+
+It is often the case that the variances of the error terms are non-constant. One can identify non-constant variances in the errors, or ***heteroscedasticity***, from the presence of a *funnel shape* in the residual plot of the magnitude of the residuals versus the fitted values.
+
+When faced with the non-constant variances of the error terms, the possible solutions include:
+
+* transforming the response $Y$ by a concave function such as $logX$ or $\sqrt{Y}$.
+* weighted least squares
+
+### Outliers
+
+An ***outlier*** is a point for which $y_i$ is far from the value predicted by the model.
+
+It is typical for an outlier that does not have an unusual predictor value to have little effect on the least squares fit, but it can cause other problems, such as:
+
+* the increase of the ***RSE***
+* the decline of the $R^2$
+
+Residual plots can be used to identify outliers. To decide how large a residual needs to be before we consider the point to be an outlier, we can plot the ***studentized residuals***, computed by dividing each residual $e_i$ by its estimated standard error. 
+
+Observations whose studentized residuals are greater than 3 in absolute value are possible outliers.
+
+An outlier may be caused by an error in data collection or recording, or indicate a deficiency with the model. 
+
+### High Leverage Points
+
+* An outlier => the response $y_i$ is unusual given the predictors $x_i$
+* A High leverage point => have an unusual value for $x_i$
+
+High leverage observations tend to have a sizable impact on the estimated regression line, which means removing the high leverage observation has a much more substantial impact on the least squares line than removing the outlier.
+
+To quantify an observation's leverage, we compute the ***leverage statistic***. A large value of this statistic indicates an observation with high leverage.
+
+The leverage statistic $h_i$ is always between $1/n$ and 1, and the average leverage for all the observations is always equal to $(p+1)/n$. So if a given observation has a leverage statistic that greatly exceeds $(p+1)/n$, then we may suspect that the corresponding point has high leverage.
+
+### Collinearity
+
+***Collinearity*** refers to the situation in which two or more predictor variables are closely related to one another.
+
+The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.
+
+Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for $\hat{\beta}_j$ to grow, which further results in a decline in the *t*-statistic. As a result, in the presence of collinearity, we may fail to reject $H_0: \beta_j = 0$.
+
+Two ways to identify the potential collinearity problems while fitted the model:
+
+* look at the correlation matrix of the predictors, useful for detecting collinearity between a pair of variables
+
+* compute the *variance inflation factor* (VIF) in the case of ***multicollinearity***, in which collinearity exits between three or more variables even if no pair of variables has a particularly high correlation.
+
+  * The **VIF** is the ratio of the variance of $\hat{\beta}_j$ when fitting the full model divided by the variance of $\hat{\beta}_i$ if fit on its own.
+  * The smallest possible value for **VIF** is 1, which indicates the complete absence of collinearity.
+  * As a rule of thumb, a **VIF** value that exceeds 5 or 10 indicates a problematic amount of collinearity.
+
+* The **VIF** for each variable can be computed using the formula
+
+  $$VIF(\hat{\beta}_j) = \frac{1}{1 - R^2_{X_j|X_-j}}$$
+
+  where $R^2_{X_j | X_-j}$ is the $R^2$ from a regression of $X_j$ onto all of the other predictors. If  $R^2_{X_j | X_-j}$ is close to one, then collinearity is present, and so the **VIF** will be large.
+
+Solutions to the problem of collinearity:
+
+* drop one of the problematic variables from the regression, since the presence of collinearity implies that the information that this variable provides about the response is redundant in the presence of the other variables.
+* combine the collinear variables together into a single predictor.
+
+# 3.5 Comparison of Linear Regression with K-Nearest Neighbors
+
+**K**-*nearest neighbors regression* (**KNN** regression) is one of the simplest and best-known non-parametric methods, which does not explicitly assume a parametric form for $f(X)$.
+
+Given a value for $K$ and a prediction point $x_0$, **KNN** regression first identifies the *K* training observations that are closest to $x_0$, represented by $N_0$. It then estimates $f(x_0)$ using the average of all the training responses in $N_0$:
+
+$\hat{f}(x_0) = \frac{1}{K}\sum_\limits{x_i \in N_0} y_i$
+
+In general, the optimal value for $K$ will depend on the *bias-variance tradeoff*.
+
+* A small value for $K$ => a more flexible fit, low bias but high variance
+* A larger value for $K$ => a smoother and less variable fit
+
+*The parametric approach will outperform the non-parametric approach if the parametric form that has been selected is close to the true form of f*. 
+
+In contrast, **KNN** can sometimes perform slightly worse than linear regression when the relationship is linear, but much better than linear regression for non-linear situations. 
+
+But in higher dimensions, **KNN** often performs worse than linear regression, which results from the fact that in higher dimensions there is effectively a reduction in sample size. 
+
+A given observation has no *nearby neighbors* — this is the so-called *curse of dimensionality*. That is, the $K$ observations that are nearest to a given test observation $x_0$ may be very far away from $x_0$ in *p*-dimensional space when $p$ is large.
+
+So generally, **parametric methods will tend to outperform non-parametric approaches when there is a small number of observations per predictor.**
+
+Sometime, from an interpretability standpoint, we might prefer linear regression to **KNN**.
