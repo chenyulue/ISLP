@@ -24,23 +24,23 @@ Logistic regression models the *probability* that $Y$ belongs to a particular ca
 
 *Logistic function*:
 $$
-p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}\label{ref1}\tag{4.2}
+p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}\label{ref4.2}\tag{4.2}
 $$
-To fit the model ($\ref{ref1}$), we use a method called ***maximum likelihood***. 
+To fit the model ($\ref{ref4.2}$), we use a method called ***maximum likelihood***. 
 
 The logistic function will always produce an *S*-shaped curve of this form, and so regardless of the value of $X$, we will obtain a sensible prediction that gives outputs between 0 and 1 for all values of $X$.
 
-A bit of manipulation of ($\ref{ref1}$):
+A bit of manipulation of ($\ref{ref4.2}$):
 $$
-\frac{p(X)}{1 - p(X)} = e^{\beta_0 + \beta_1 X}\label{ref2}\tag{4.3}
+\frac{p(X)}{1 - p(X)} = e^{\beta_0 + \beta_1 X}\label{ref4.3}\tag{4.3}
 $$
 which is called the ***odds***, and can take on any value between 0 and $\infin$. Values of the *odds* close to 0 and $\infin$ indicate very low and very high probabilities respectively.
 
-By taking the logarithm of both sides of ($\ref{ref2}$):
+By taking the logarithm of both sides of ($\ref{ref4.3}$):
 $$
-log(\frac{p(X)}{1 - p(X)})=\beta_0 + \beta_1 X\label{ref3}\tag{4.4}
+log(\frac{p(X)}{1 - p(X)})=\beta_0 + \beta_1 X\label{ref4.4}\tag{4.4}
 $$
-where the left-hand side is called the ***log-odds*** or ***logit***. According to ($\ref{ref3}$), we see that the logistic regression model ($\ref{ref1}$) has a *logit* that is linear in $X$.
+where the left-hand side is called the ***log-odds*** or ***logit***. According to ($\ref{ref4.4}$), we see that the logistic regression model ($\ref{ref4.2}$) has a *logit* that is linear in $X$.
 
 Regardless of the value of $X$,
 
@@ -49,11 +49,11 @@ Regardless of the value of $X$,
 
 ## 4.3.2 Estimating the Regression Coefficients
 
-To estimate the coefficients $\beta_0$ and $\beta_1$, we prefer the *maximum likelihood*, by which we try to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such that plugging these estimates into the model for $p(X)$, given in ($\ref{ref1}$), yields a number close to one for all individuals who belongs to a specific category, and a number close to zero for all individuals who does not.
+To estimate the coefficients $\beta_0$ and $\beta_1$, we prefer the *maximum likelihood*, by which we try to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such that plugging these estimates into the model for $p(X)$, given in ($\ref{ref4.2}$), yields a number close to one for all individuals who belongs to a specific category, and a number close to zero for all individuals who does not.
 
 ***Likelihood function***:
 $$
-\mathscr{L}(\beta_0, \beta_1)=\prod_{i:y_i=1} p(x_i)\,\prod_{i':y_{i'}=0} (1 - p(x_{i'})) \label{ref4}\tag{4.5}
+\mathscr{L}(\beta_0, \beta_1)=\prod_{i:y_i=1} p(x_i)\,\prod_{i':y_{i'}=0} (1 - p(x_{i'}))\label{ref4.5}\tag{4.5}
 $$
 The estimates $\hat{\beta}_0$ and $\hat{\beta}_1$ are chosen to **maximize** this likelihood function.
 
@@ -69,7 +69,7 @@ One can use qualitative predictors with the logistic regression model using the 
 
 Multiple logistic model:
 $$
-log(\frac{p(X)}{1 - p(X)}) = \beta_0 + \beta_1 X_1 +\,\cdot\cdot\cdot\,+\beta_p X_p\label{ref5}\tag{4.6}
+log(\frac{p(X)}{1 - p(X)}) = \beta_0 + \beta_1 X_1 +\,\cdot\cdot\cdot\,+\beta_p X_p\label{ref4.6}\tag{4.6}
 $$
 where $X\,=\,(X_1,\,...\,,X_p)$ are *p* predictors.
 
@@ -80,6 +80,10 @@ As in the linear regression setting, the results obtained using one predictor ma
 The two-class logistic regression  models have multiple-class extensions, but in practice they tend not to be used all that often. One of the reason is that ***discriminant analysis*** is popular for multiple-class classification.
 
 # 4.4 Linear Discriminant Analysis
+
+Compared to the logistic regression, which is used to model directly the conditional distribution of the response $Y$ given the predictor(s) $X$, we use the linear discriminant analysis to model the distribution of the predictors $X$ separately in each of the response classes (i.e. given $Y$), and then use Bayes' theorem to flip these around into estimates for $Pr(Y=k|X = x)$.
+
+## 4.4.1 Using Bayes' Theorem for Classification
 
 
 
