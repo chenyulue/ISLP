@@ -85,9 +85,78 @@ Compared to the logistic regression, which is used to model directly the conditi
 
 ## 4.4.1 Using Bayes' Theorem for Classification
 
+* Overall or *prior* probability $\pi_K$:  the probability that a given observation is associated with the *k*-th category of the response variable $Y$.
 
+* *Density function* of $X$ for an observation that comes form the *k*-th calss: $f_k(x) = Pr(X=x|Y=k)$
 
+* The *Bayes' theorem*:
+  $$
+  Pr(Y=k|X=x) = \frac{\pi_k f_k(x)}{\sum_{l=1}^K \pi_l f_l(x)}\label{ref4.10}\tag{4.10}
+  $$
+  This suggests that instead of directly computing $p_k(X)$, which is $Pr(Y=k|X)$, we can simply plug in estimates of $\pi_k$ and $f_k(X)$ into ($\ref{ref4.10}$).
 
+  * To estimate $\pi_k$, we simple compute the fraction of the training observations that belong to the *k*-th class.
+  * Estimating $f_k(X)$ is more challenging, so we need to assume some simple forms for these densities.
+  * $p_k(x)$ is the *posterior* probability that an observation $X=x$ belongs to the *k*-th class; that is, the probability that the observation belongs to the *k*-th class, *given* the predictor value for that observation.
 
+## 4.4.2 Linear Discriminant Analysis for $p=1$
 
+We classify an observation to the class for which $p_k(x)$ is greatest.
 
+To estimate $f_k(x)$, we assumes that:
+
+* $f_k(x)$ is *normal* or *Gaussian*
+  $$
+  f_k(x) = \frac{1}{\sqrt{2\pi}\sigma_k}exp(-\frac{1}{2\sigma_k^2}(x-\mu_k)^2)\label{ref4.11}\tag{4.11}
+  $$
+  where $\mu_k$ and $\sigma_k^2$ are the mean and variance parameters for the *k*-th class
+
+* There is a shared variance term across all $K$ classes; that is, $\sigma_1^2 = ... = \sigma_k^2$
+  $$
+  p_k(x)=\frac{\pi_k \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_k)^2)}{\sum_{l=1}^K \pi_l \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_k)^2)}\label{ref4.12}\tag{4.12}
+  $$
+  The Bayes classifier involves assigning an observation $X=x$ to the class for which ($\ref{ref4.12}$) is largest.
+
+Taking the log of ($\ref{ref4.12}$) :
+$$
+\delta_k(x) = x\cdot\frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2\sigma^2} + log(\pi_i)\label{ref4.13}\tag{4.13}
+$$
+The Bayes classifier is equivalent to assigning the observation to the class for which ($\ref{ref4.13}$) is largest.
+
+In a real-life situation, we are not able to calculate the Bayes classifier, so we have to estimate the parameters $\mu_1,\,...\,,\mu_k,\;\pi_1,\,..,\,\pi_k$ and $\sigma^2$. For the *linear discriminant analysis* (LDA) method, the estimates are:
+$$
+\begin{align}
+\hat{\mu}_k &= \frac{1}{n_k} \sum_{i:y_i=k} x_i\\
+\hat{\sigma}^2 &= \frac{1}{n-K}\sum_{k=1}^K \sum_{i:y_i=k} (x_i - \hat{\mu}_k)^2\\
+\hat{\pi}_k &= \frac{n_k}{n}
+\end{align}\label{ref4.15}\tag{4.15}
+$$
+where $n$ is the total number of training observations, and $n_k$ is the number of training observations in the *k*-th class.
+
+**To recap**, the LDA classifier results from assuming that the observations within each class come from a normal distribution with a class-specific mean vector and a common variance $\sigma^2$, and plugging estimates for these parameters into the Bayes classifier to get the *discriminant functions* $\hat{\delta}_k(x)$. After that, we assign an observation $X=x$ to the class for which  $\hat{\delta}_k(x)$ is largest.
+
+## 4.4.3 Linear Discriminant Analysis for $p > 1$
+
+We assume that $X=(X_1, X_2,\,...,\,X_p)$ is drawn from a *multivariate Gaussian* (or multivariate normal) distribution, with a class-specific mean vector and a common **covariance matrix**.
+
+ To indicate that a *p*-dimensional random variable $X$ has a multivariate Gaussian distribution, we write $X \sim N(\mu, \Sigma)$, where $E(X)=\mu$ is the mean of $X$ (a vector with *p* components), and $Cov(X)=\Sigma$ is the $p \times p$ covariance matrix of $X$.
+$$
+f(x) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}} exp(-\frac{1}{2}(x - \mu)^T \Sigma^{-1}(x-\mu))\label{ref4.18}\tag{4.18}
+$$
+The Bayes classifier assigns an observation $X=x$ to the class for which
+$$
+\delta_K(x) = x^T \Sigma^{-1} \mu_k - \frac{1}{2} \mu_k^T \Sigma^{-1}\mu_k + log(\pi_k)\label{ref4.19}\tag{4.19}
+$$
+is largest.
+
+Like the case of $p=1$, we also need to estimate the unknown parameters, and plug these estimates into ($\ref{ref4.19}$) and classifies to the class for which $\hat{\delta}_k(x)$ is largest.
+
+Two caveats must be noted:
+
+* The higher the ratio of parameters $p$ to number of samples $n$, the more we expect this ***overfitting*** to play a role.
+* The trivial *null* classifier will achieve an error rate that is only a bit higher than the LDA training set error rate.
+
+**Confusion matrix** can be used to assess the class-specific performance, or the performance of a classifier or screening test:
+
+* *sensitivity*
+* *specificity*
