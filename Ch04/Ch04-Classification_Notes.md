@@ -158,5 +158,70 @@ Two caveats must be noted:
 
 **Confusion matrix** can be used to assess the class-specific performance, or the performance of a classifier or screening test:
 
-* *sensitivity*
-* *specificity*
+* *sensitivity*: true positive rate
+* *specificity*:  true negative rate
+
+The **ROC** *curve* is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds, with the x-axis being *false positive rate* (1 - specificity) and the y-axis being *true positive rate* (sensitivity).
+
+The overall performance of a classifier, summarized over all possible thresholds, is given by the *area under the (ROC) curve* (AUC). 
+
+An ideal ROC curve will hug the top left corner, so the larger the AUC the better the classifier, which indicates a high true positive rate and a low false positive rate.
+
+Possible results when applying a classifier or diagnostic test to a population:
+
+|                    | Predicted - or Null | Predicted + or Non-null | Predicted Total |
+| ------------------ | ------------------- | ----------------------- | --------------- |
+| Real - or Null     | True Neg. (TN)      | False Pos. (FP)         | $N$             |
+| Real + or Non-null | False Neg. (FN)     | True Pos. (TP)          | $P$             |
+| Real Total         | $N^*$               | $P^*$                   |                 |
+
+Important measures for classification and diagnostic testing:
+
+| Name             | Definition | Synonyms                                      |
+| ---------------- | ---------- | --------------------------------------------- |
+| False Pos. rate  | $FP/N$     | Type I error, 1 - Specificity                 |
+| True Pos.  rate  | $TP/P$     | 1 - Type II error, power, sensitivity, recall |
+| Pos. Pred. value | $TP/P^*$   | Precision, 1 - false discovery proportion     |
+| Neg. Pred. value | $TN/N^*$   |                                               |
+
+## 4.4.4 Quadratic Discriminant Analysis
+
+*Quadratic Discriminant Analysis* (QDA) assumes that:
+
+* the observations from each class are drawn from a Gaussian distribution,
+* each class has a class-specific mean vector, and
+* its own covariance matrix.
+
+That is, it assumes that an observation from the *k*th class is of the form $X\sim N(\mu_k, \Sigma_k)$, where $\Sigma_k$ is a covariance matrix for the *k*th class.
+
+The form of the *discriminant function* is:
+$$
+\begin{align}
+\delta_k(x) &= -\frac{1}{2}(x - \mu_k)^T \Sigma_K^{-1}(x-\mu_k) - \frac{1}{2}log(|\Sigma_k|) + log(\pi_k)\\
+&= -\frac{1}{2}x^T\Sigma_k^{-1} x + x^T\Sigma_k^{-1}\mu_k - \frac{1}{2}\mu_k^T \Sigma_K^{-1}\mu_k - \frac{1}{2}log(|\Sigma_k|) + log(\pi_k)
+\end{align}\label{ref4.23}\tag{4.23}
+$$
+We can see that the quantity $x$ appears as a *quadratic* function in ($\ref{ref4.23}$).
+
+We choose LDA or QDA based on the **bias-variance trade-off**:
+
+* LDA is a much less flexible classifier than QDA, and so has substantially lower variance.
+* If LDA's assumption that the $K$ classes share a common covariance matrix is badly off, then LDA can suffer from high bias.
+* LDA tends to be a better bet than QDA if there are relatively few training observations and so reducing variance is crucial.
+* QDA is recommended if the training set is very large, so that the variance of the classifier is not a major concern, or if the assumption of a common covariance matrix for the $K$ classes is clearly untenable.
+
+# 4.5 A Comparison of Classification Methods
+
+The logistic regression and LDA methods are closely connected.
+
+* LDA assumes that the observations are drawn from a Gaussian distribution with a common covariance matrix in each class, and so can provide some improvements over logistic regression when this assumption approximately holds.
+* Logistic regression can outperform LDA if these Gaussian assumptions are not met.
+* KNN can dominate LDA and logistic regression when the decision boundary is highly non-linear, but does not tell us which predictors are important.
+* QDA serves as a compromise between the non-parametric KNN method and the linear LDA and logistic regression approaches, which can accurately model a wider range of problems than the linear methods due to the assumption of a quadratic decision boundary.
+* Compared to KNN, QDA can perform better in the presence of a limited number of training observations because it makes some assumptions about the form of the decision boundary.
+
+To recap,
+
+* when the true decision boundary is linear, then the LDA and logistic regression approaches will tend to perform well;
+* when the boundaries are moderately non-linear, QDA may give a better result.
+* for much more complicated decision boundaries, a non-parametric KNN can be superior, but the level of smoothness must be chosen carefully.
