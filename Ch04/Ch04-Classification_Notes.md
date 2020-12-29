@@ -113,7 +113,7 @@ To estimate $f_k(x)$, we assumes that:
 
 * There is a shared variance term across all $K$ classes; that is, $\sigma_1^2 = ... = \sigma_k^2$
   $$
-  p_k(x)=\frac{\pi_k \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_k)^2)}{\sum_{l=1}^K \pi_l \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_k)^2)}\label{ref4.12}\tag{4.12}
+  p_k(x)=\frac{\pi_k \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_k)^2)}{\sum_{l=1}^K \pi_l \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{1}{2\sigma^2}(x-\mu_l)^2)}\label{ref4.12}\tag{4.12}
   $$
   The Bayes classifier involves assigning an observation $X=x$ to the class for which ($\ref{ref4.12}$) is largest.
 
