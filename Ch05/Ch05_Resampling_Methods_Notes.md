@@ -74,3 +74,36 @@ Advantages:
 
 ## 5.1.4 Bias-Variance Trade-Off for k-Fold Cross-Validation
 
+*k*-fold CV often gives more accurate estimates of the test error rate than does LOOCV, which has to do with a bias-variance trade-off.
+
+* From the perspective of bias reduction, LOOCV is to be preferred to *k*-fold CV.
+* LOOCV has higher variance than does *k*-fold CV with $k<n$.
+
+The test error estimate resulting from LOOCV tends to have higher variance than does the test error estimate resulting from *k*-fold CV.
+
+There is a bias-variance trade-off associated with the choice of *k* in *k*-fold cross-validation. Typically, we use $k=5$ or $k=10$.
+
+## 5.1.5 Cross-Validation on Classification Problems
+
+In this setting, we instead use the number of misclassified observations to quantify test error.
+
+In the classification setting, the LOOCV error rate takes the form:
+$$
+CV_{(n)} = \frac1n \sum_{i=1}^n Err_i \label{ref5.4}\tag{5.4}
+$$
+where $Err_i = I(y_i \neq \hat{y}_i)$.
+
+# 5.2 The Bootstrap
+
+The *bootstrap* can be used to quantify the uncertainty associated with a given estimator or statistical learning method.
+
+The *bootstrap* approach allows us to use a computer to emulate the process of obtaining new sample sets, so that we can estimate the variability of $\hat{\alpha}$ without generating additional samples. 
+
+We obtain distinct data sets by repeatedly sampling observations *from the original data set*.
+
+For B different bootstrap data sets, $Z^{*1}, Z^{*2}, ..., Z^{*B}$, we can produce a bootstrap estimate for $\alpha$ respectively, $\hat{\alpha}^{*1}, \hat{\alpha}^{*2}, ..., \hat{\alpha}^{*B}$, and then we can compute the standard error of these bootstrap estimates using the formula:
+$$
+SE_B(\hat{\alpha}) = \sqrt {\frac{1}{B-1} \sum_{r=1}^B (\hat{\alpha}^{*r} - \frac1B \sum_{r'=1}^B \hat{\alpha}^{*r'})^2} \label{ref5.8}\tag{5.8}
+$$
+This serves as an estimate of the standard error of $\hat{\alpha}$ estimated from the original data set.
+
