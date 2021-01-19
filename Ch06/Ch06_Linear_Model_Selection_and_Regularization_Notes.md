@@ -177,3 +177,98 @@ Ridge regression also has substantial computational advantages over best subset 
 
 ## 6.2.2 The Lasso
 
+The *lasso* overcomes the disadvantage of ridge regression that the penalty $\lambda \sum \beta_j^2$ will shrink all of the coefficients towards zero but will not set any of them exactly to zero (unless $\lambda = \infty$).
+
+The lasso coefficients, $\hat{\beta}_{\lambda}^L$, minimize the quantity
+$$
+\sum_{i=1}^n \left(y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum_{j=1}^p \left| \beta_j \right| = RSS + \lambda \sum_{j=1}^p \left| \beta_j \right| \label{ref6.7} \tag{6.7}
+$$
+The $\ell_1$ norm of a coefficient vector $\beta$ is given by $\left\|\beta\right\|_1 = \sum \left|\beta_j\right|$, that is, the lasso uses an $\ell_1$ penalty instead of an $\ell_2$ penalty.
+
+The $\ell_1$ penalty has the effect of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter $\lambda$ is sufficiently large; that is, the lasso performs *variable selection*.
+
+In this setting, we way that the lasso yields *sparse* models – that is, models that involve only a subset of the variables.
+
+### Another Formulation for Ridge Regression and the Lasso
+
+The lasso and ridge regression coefficient estimates solve the problems
+$$
+\min\limits_{\beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2\right\} \;subject\;to \sum_{j=1}^p \left| \beta_j \right| \le s \label{ref6.8} \tag{6.8}
+$$
+and
+$$
+\min\limits_{\beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2\right\} \;subject\;to \sum_{j=1}^p \beta_j^2 \le s \label{ref6.9} \tag{6.9}
+$$
+When we perform the lasso or ridge regression we are trying to find the set of coefficient estimates that lead to the smallest $RSS$, subject to the **constraint** that there is a *budget s* for how large $\sum_{j=1}^p \left| \beta_j \right|$ or $\sum_{j=1}^p \beta_j^2$ can be.
+
+### The Variable Selection Property of the Lasso
+
+The lasso leads to feature selection when $p>2$ due to the sharp corners of the polyhedron or polytope.
+
+### Comparing the Lasso and Ridge Regression
+
+* The lasso has a major advantage over ridge regression, in that it produces simpler and more interpretable models that involve only a subset of the predictors.
+* As for prediction accuracy, neither ridge regression nor the lasso will universally dominate the other.
+  * The lasso performs better in a setting where a relatively small number of predictors have substantial coefficients, and the remaining predictors have coefficients that are very small or that equal zero.
+  * Ridge regression will perform better when the response is a function of many predictors, all with coefficients of roughly equal size.
+* A technique such as cross-validation can be used in order to determine which approach is better on a particular data set.
+
+### A Simple Special Case for Ridge Regression and the Lasso
+
+Ridge regression more or less shrinks every dimension of the data by the same proportion, whereas the lasso more or less shrinks all coefficients toward zero by a similar amount, and sufficiently small coefficients are shrunken all the way to zero.
+
+### Bayesian Interpretation for Ridge Regression and the Lasso
+
+From a Bayesian viewpoint, ridge regression and the lasso follow directly from assuming the usual linear model with **normal error**, together with a simple **prior distribution for $\beta$**.
+
+* For ridge regression, it has a Gaussian prior distribution with mean zero and standard deviation a function of $\lambda$.
+* For lasso regression, it has a double-exponential (Laplace) distribution with mean zero and scale parameter a function  of $\lambda$.
+
+## 6.2.3 Selecting the Tuning Parameter
+
+Implementing ridge regression and the lasso requires a method for selecting a value for the tuning parameter $\lambda$ in ($\ref{ref6.5}$) and ($\ref{ref6.7}$), or equivalently, the value of the constraint $s$ in ($\ref{ref6.9}$) and ($\ref{ref6.8}$).
+
+We use cross-validation to tackle this problem:
+
+* choose a grid of $\lambda$ values, and compute the cross-validation error for each value of $\lambda$;
+* then select the tuning parameter value for which the cross-validation error is smallest;
+* finally, the model is re-fit using all of the available observations and the selected value of the tuning parameter.
+
+# 6.3 Dimension Reduction Methods
+
+*Dimension reduction*: *transform* the predictors and then fit a least squares model using the transformed variables.
+
+Let $Z_1, Z_2, ..., Z_M$ represent $M<p$ *linear combinations* of the original $p$ predictors:
+$$
+Z_m = \sum_{j=1}^p \phi_{jm} X_j \label{ref6.16} \tag{6.16}
+$$
+for some constants $\phi_{1m}, \phi_{2m},...,\phi_{pm}$, $m=1,2,...,M$. We can then fit the linear regression model
+$$
+y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i, \; i=1,2,...,n \label{ref6.17}\tag{6.17}
+$$
+using least squares.
+
+The term *dimension reduction* means this approach reduces the problem of estimating the $p+1$ coefficients $\beta_0, \beta_1, ..., \beta_p$ to the simpler problem of estimating the $M+1$ coefficients $\theta_0, \theta_1, ..., \theta_M$, where $M < p$.
+$$
+\sum_{m=1}^M \theta_m z_{im} = \sum_{m=1}^M \theta_m \sum_{j=1}^p \phi_{jm} x_{ij} = \sum_{j=1}^p \sum_{m=1}^M  \theta_m \phi_{jm} x_{ij} = \sum_{j=1}^p \beta_j x_{ij}
+$$
+where
+$$
+\beta_j = \sum_{m=1}^M \theta_m \phi_{jm} \label{ref6.18}\tag{6.18}
+$$
+So dimension reduction serves to constrain the estimated $\beta_j$ coefficients such that they take the form ($\ref{ref6.18}$).
+
+All dimension reduction methods work in two steps:
+
+1. the transformed predictors $Z_1, Z_2, ..., Z_M$ are obtained.
+2. the model is fit using these $M$ predictors.
+
+The choice of $Z_1, Z_2, ..., Z_M$, or equivalently, the selection of the $\phi_{jm}$'s, can be achieved in different ways:
+
+* *principal components*
+* *partial least squares*
+
+## 6.3.1 Principal Components Regression
+
+
+
