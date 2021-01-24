@@ -270,5 +270,57 @@ The choice of $Z_1, Z_2, ..., Z_M$, or equivalently, the selection of the $\phi_
 
 ## 6.3.1 Principal Components Regression
 
+*Principal components analysis* (PCA) is an approach used as a dimension reduction for regression.
 
+The *first principal component* direction of the data is that along which the observations *vary the most*. That is, out of every possible *linear combination of predictors* under some constraint, this particular linear combination yields the highest variance.
+
+Another interpretation for PCA: the first principal component vector defines the line that is *as close as possible* to the data.
+
+The first principal component appears to capture most of the information contained in the predictors.
+
+One can construct up to $p$ distinct principal components. They would successively maximize variance, subject to the constraint of being uncorrelated with the preceding components.
+
+If the principal component scores are much closer to zero, it indicates that this component captures far less information.
+
+### The Principal Components Regression Approach
+
+The *principal components regression* (PCR) approach involves constructing the first $M$ principal components, $Z_1, ..., Z_M$, and then using these components as the predictors in a linear regression model that is fit using least squares.
+
+For PCR, we assume that *the directions in which $X_1, ..., X_p$ show the most variation are the directions that are associated with $Y$*. If this assumption underlying PCR holds, then fitting a least squares model to $Z_1, ..., Z_M$ will lead to better results than fitting a least squares model to $X_1, ..., X_p$.
+
+PCR will tend to do well in cases when the first few principal components are sufficient to capture most of the variation in the predictors as well as the relationship with the response.
+
+PCR provides a simple way to perform regression using $M<p$ predictors, but it is *not* a feature selection method. This is because each of the $M$ principal components used in the regression is a linear combination of all $p$ of the *original* features.
+
+In this sense, PCR is more closely related to ridge regression than to the lasso. One can think of ridge regression as a continuous version of PCR.
+
+When performing PCR, we generally recommend *standardizing* each predictor prior to generating the principal components, so that all variables are on the same scale.
+
+However, if the variables are all measured in the same units (say, kilograms, or inches), then one might choose not to standardize them.
+
+## Partial Least Squares
+
+
+
+The linear combinations, or *directions*, that best represent the predictors $X_1, ..., X_p$, are identified in an *unsupervised* way.
+
+Consequently, PCR has a drawback: there is no guarantee that the directions that best explain the predictors will also be the best directions to use for predicting the response.
+
+*Partial least squares* (PLS) is a *supervised* alternative to PCR. PLS works almost the same way as PCR, but it identifies the new features in a *supervised* way. PLS makes use of the response $Y$ in order to identify new features that not only approximate the old features well, but also that *are related to the response.*
+
+How the first PLS direction is computed:
+
+1. standardize the $p$ predictors
+2. set each $\phi_{j1}$ in ($\ref{ref6.16}$) equal to the coefficient from the simple linear regression of $Y$ onto $X_j$, which means, in computing $Z_1 = \sum_{j=1}^p \phi_{j1}X_j$, PLS places the highest *weight* on the variables that are most strongly related to the response.
+
+To identify the second PLS direction:
+
+1. *adjust* each of the variables for $Z_1$ by regressing each variable on $Z_1$ and taking *residuals*; these residuals can be interpreted as the remaining information that has not been explained by the first PLS direction.
+2. compute $Z_2$ using this *orthogonalized* data in exactly the same fashion as $Z_1$ was computed based on the original data.
+
+This iterative approach can be repeated $M$ times to identify multiple PLS components $Z_1, ..., Z_M$. Finally we use least squares to fit a linear model to predict $Y$ using $Z_1, ..., Z_n$ in exactly the same fashion as for PCR.
+
+# 6.4 Considerations in High Dimensions
+
+## 6.4.1 High-Dimensional Data
 
