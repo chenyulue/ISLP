@@ -324,3 +324,47 @@ This iterative approach can be repeated $M$ times to identify multiple PLS compo
 
 ## 6.4.1 High-Dimensional Data
 
+Data sets containing more features than observations are often referred to as *high-dimensional*.
+
+Issues that arise in the analysis of high-dimensional data:
+
+* the bias-variance trade-off
+* overfitting
+
+## 6.4.2 What Goes Wrong in Hing Dimensions?
+
+When the number of features $p$ is as large as, or larger than, the number of observations $n$, least squares will yield a set of coefficient estimates that result in a perfect fit to the data such that the residuals are zero, regardless of whether or not there truly is a relationship between the features and the response.
+
+In other words, when $p>n$ or $p \approx n$, a simple least squares regression line is too flexible and hence overfits the data.
+
+Besides, the $C_p$, AIC, and BIC approaches are not appropriate in the high-dimensional setting, because estimating $\hat{\sigma}^2$ is problematic. Similarly, problems arise in the application of adjusted $R^2$ in the high-dimensional setting, since one can easily obtain a model with an adjusted $R^2$ value of 1.
+
+## 6.4.3 Regression in High Dimensions
+
+The following approaches avoid overfitting by using a less flexible fitting approach than least squares:
+
+* forward stepwise selection
+* ridge regression
+* the lasso
+* principal components regression
+
+To fit in high dimensions, three import points are:
+
+1. regularization or shrinkage plays a key role in high-dimensional problems;
+2. appropriate tuning parameter selection is crucial for good predictive performance; and
+3. the test error tends to increase as the dimensionality of the problem (i.e. the number of features or predictors) increases, unless the additional features are truly associated with the response. (the *curse of dimensionality*)
+
+In general, *adding additional signal features that are truly associated with the response will improve the fitted model*, in the sense of leading to a reduction in test set error.
+
+## 6.4.4 Interpreting Results in High Dimensions
+
+In the high-dimensional setting, the *multicollinearity* problem is extreme: any variable in the model can be written as a linear combination of all of the other variables in the model. 
+
+Hence we can never know exactly which variables (if any) truly are predictive of the outcome, and we can never identify the *best* coefficients for use in the regression.
+
+Therefore, we must be careful not to overstate the results obtained, and to make it clear that what we have identified is simply *one of many possible models* for predicting  the response, and that it must be further validated on independent data sets.
+
+Since when $p>n$, it is easy to obtain a useless model that has zero residuals, we should *never* use sum of squared errors, p-values, $R^2$ statistics, or other traditional measures of model fit on the training data as evidence of a good model fit in the high-dimensional setting.
+
+In contrast, the MSE OR $R^2$ on an independent ***test set*** is a valid measure of model fit.
+
